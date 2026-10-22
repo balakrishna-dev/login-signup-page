@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nebula — Sign In / Sign Up | Balakrishna Undela</title>
+  <meta name="description" content="A modern, animated and accessible Sign In / Sign Up experience designed and built by Balakrishna Undela." />
+  <meta name="author" content="Balakrishna Undela" />
+  <meta name="theme-color" content="#07070d" />
+
+  <meta property="og:title" content="Nebula Auth — by Balakrishna Undela" />
+  <meta property="og:description" content="An animated, glassmorphic Sign In / Sign Up UI built with pure HTML, CSS and JavaScript." />
+  <meta property="og:image" content="assets/img/preview.png" />
+
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <!-- ========== Ambient background ========== -->
+  <div class="bg" aria-hidden="true">
+    <div class="blob blob--1"></div>
+    <div class="blob blob--2"></div>
+    <div class="blob blob--3"></div>
+    <canvas id="constellation"></canvas>
+    <div class="grid-overlay"></div>
+    <div class="grain"></div>
+  </div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <!-- ========== Top bar ========== -->
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Nebula home">
+      <span class="brand__mark">
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <defs>
+            <linearGradient id="bm" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#8b5cf6" />
+              <stop offset=".5" stop-color="#22d3ee" />
+              <stop offset="1" stop-color="#f472b6" />
+            </linearGradient>
+          </defs>
+          <path d="M16 2 29 9.5v13L16 30 3 22.5v-13Z" fill="none" stroke="url(#bm)" stroke-width="2.4" stroke-linejoin="round" />
+          <circle cx="16" cy="16" r="4.5" fill="url(#bm)" />
+        </svg>
+      </span>
+      <span class="brand__name">Nebula</span>
+    </a>
+
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle colour theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" /><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8" /></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" /></svg>
+    </button>
+  </header>
+
+  <!-- ========== Auth card ========== -->
+  <main class="stage">
+    <section class="auth" id="auth" aria-label="Authentication">
+
+      <!-- Mobile segmented switch -->
+      <div class="switch" role="tablist" aria-label="Choose form">
+        <button class="switch__btn is-active" role="tab" aria-selected="true" aria-controls="signinPane" data-mode="signin" type="button">Sign In</button>
+        <button class="switch__btn" role="tab" aria-selected="false" aria-controls="signupPane" data-mode="signup" type="button">Sign Up</button>
+        <span class="switch__pill" aria-hidden="true"></span>
+      </div>
+
+      <!-- ---------- SIGN IN ---------- -->
+      <div class="pane pane--signin is-active" id="signinPane" role="tabpanel">
+        <form class="form" id="signinForm" novalidate>
+          <header class="form__head">
+            <span class="eyebrow">Welcome back</span>
+            <h1 class="form__title">Sign in to <span class="grad-text">Nebula</span></h1>
+            <p class="form__sub">Pick up right where you left off.</p>
+          </header>
+
+          <div class="socials">
+            <button class="social" type="button" data-provider="Google" aria-label="Continue with Google">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5a5.6 5.6 0 0 1-2.4 3.6v3h3.9c2.2-2.1 3.5-5.1 3.5-8.8Z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.7-2.1-6.6-4.9h-4v3.1A12 12 0 0 0 12 24Z"/><path fill="#FBBC05" d="M5.4 14.4a7.2 7.2 0 0 1 0-4.7V6.6h-4a12 12 0 0 0 0 10.8l4-3Z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.3.6 4.5 1.8l3.4-3.4A12 12 0 0 0 1.4 6.6l4 3.1C6.3 6.9 8.9 4.8 12 4.8Z"/></svg>
+            </button>
+            <button class="social" type="button" data-provider="GitHub" aria-label="Continue with GitHub">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5Z"/></svg>
+            </button>
+            <button class="social" type="button" data-provider="Apple" aria-label="Continue with Apple">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.4 12.7c0-2.6 2.1-3.8 2.2-3.9a4.8 4.8 0 0 0-3.8-2c-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9a5 5 0 0 0-4.2 2.6c-1.8 3.1-.5 7.7 1.3 10.2.8 1.2 1.8 2.6 3.1 2.5 1.3 0 1.7-.8 3.3-.8 1.5 0 1.9.8 3.3.8 1.4 0 2.2-1.2 3-2.5a10 10 0 0 0 1.4-2.8 4.3 4.3 0 0 1-2.3-4.1ZM13.9 5.1A4.3 4.3 0 0 0 14.9 2a4.4 4.4 0 0 0-2.9 1.5 4.1 4.1 0 0 0-1 3 3.6 3.6 0 0 0 2.9-1.4Z"/></svg>
+            </button>
+          </div>
+
+          <div class="divider"><span>or continue with email</span></div>
+
+          <div class="field">
+            <input class="field__input" type="email" id="siEmail" name="email" placeholder=" " autocomplete="email" required />
+            <label class="field__label" for="siEmail">Email address</label>
+            <svg class="field__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3" /><path d="m4 7 8 6 8-6" /></svg>
+            <p class="field__error" aria-live="polite"></p>
+          </div>
+
+          <div class="field">
+            <input class="field__input" type="password" id="siPassword" name="password" placeholder=" " autocomplete="current-password" required />
+            <label class="field__label" for="siPassword">Password</label>
+            <svg class="field__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="3" /><path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg>
+            <button class="field__reveal" type="button" aria-label="Show password" aria-pressed="false">
+              <svg class="eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" /><circle cx="12" cy="12" r="3" /></svg>
+              <svg class="eye-closed" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10.6 10.6 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.1 3.9M6.6 6.6A17.4 17.4 0 0 0 2 12s3.6 7 10 7a9.8 9.8 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2" /></svg>
+            </button>
+            <p class="field__caps" aria-live="polite">Caps Lock is on</p>
+            <p class="field__error" aria-live="polite"></p>
+          </div>
+
+          <div class="form__row">
+            <label class="check">
+              <input type="checkbox" name="remember" />
+              <span class="check__box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg></span>
+              <span>Remember me</span>
+            </label>
+            <button class="link" type="button" id="forgotBtn">Forgot password?</button>
+          </div>
+
+          <button class="btn btn--primary" type="submit">
+            <span class="btn__label">Sign In</span>
+            <span class="btn__spinner" aria-hidden="true"></span>
+            <svg class="btn__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+          </button>
+
+          <p class="form__alt">New to Nebula? <button class="link" type="button" data-goto="signup">Create an account</button></p>
+        </form>
+      </div>
+
+      <!-- ---------- SIGN UP ---------- -->
+      <div class="pane pane--signup" id="signupPane" role="tabpanel">
+        <form class="form" id="signupForm" novalidate>
+          <header class="form__head">
+            <span class="eyebrow">Get started — it's free</span>
+            <h1 class="form__title">Create your <span class="grad-text">account</span></h1>
+            <p class="form__sub">Join a community of makers in seconds.</p>
+          </header>
+
+          <div class="socials socials--compact">
+            <button class="social" type="button" data-provider="Google" aria-label="Sign up with Google">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5a5.6 5.6 0 0 1-2.4 3.6v3h3.9c2.2-2.1 3.5-5.1 3.5-8.8Z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.7-2.1-6.6-4.9h-4v3.1A12 12 0 0 0 12 24Z"/><path fill="#FBBC05" d="M5.4 14.4a7.2 7.2 0 0 1 0-4.7V6.6h-4a12 12 0 0 0 0 10.8l4-3Z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.3.6 4.5 1.8l3.4-3.4A12 12 0 0 0 1.4 6.6l4 3.1C6.3 6.9 8.9 4.8 12 4.8Z"/></svg>
+            </button>
+            <button class="social" type="button" data-provider="GitHub" aria-label="Sign up with GitHub">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5Z"/></svg>
+            </button>
+            <button class="social" type="button" data-provider="Apple" aria-label="Sign up with Apple">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.4 12.7c0-2.6 2.1-3.8 2.2-3.9a4.8 4.8 0 0 0-3.8-2c-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9a5 5 0 0 0-4.2 2.6c-1.8 3.1-.5 7.7 1.3 10.2.8 1.2 1.8 2.6 3.1 2.5 1.3 0 1.7-.8 3.3-.8 1.5 0 1.9.8 3.3.8 1.4 0 2.2-1.2 3-2.5a10 10 0 0 0 1.4-2.8 4.3 4.3 0 0 1-2.3-4.1ZM13.9 5.1A4.3 4.3 0 0 0 14.9 2a4.4 4.4 0 0 0-2.9 1.5 4.1 4.1 0 0 0-1 3 3.6 3.6 0 0 0 2.9-1.4Z"/></svg>
+            </button>
+          </div>
+
+          <div class="divider"><span>or sign up with email</span></div>
+
+          <div class="field">
+            <input class="field__input" type="text" id="suName" name="name" placeholder=" " autocomplete="name" required />
+            <label class="field__label" for="suName">Full name</label>
+            <svg class="field__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21a8 8 0 0 1 16 0" /></svg>
+            <p class="field__error" aria-live="polite"></p>
+          </div>
+
+          <div class="field">
+            <input class="field__input" type="email" id="suEmail" name="email" placeholder=" " autocomplete="email" required />
+            <label class="field__label" for="suEmail">Email address</label>
+            <svg class="field__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3" /><path d="m4 7 8 6 8-6" /></svg>
+            <p class="field__error" aria-live="polite"></p>
+          </div>
+
+          <div class="field">
+            <input class="field__input" type="password" id="suPassword" name="password" placeholder=" " autocomplete="new-password" required />
+            <label class="field__label" for="suPassword">Create password</label>
+            <svg class="field__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="3" /><path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg>
+            <button class="field__reveal" type="button" aria-label="Show password" aria-pressed="false">
+              <svg class="eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" /><circle cx="12" cy="12" r="3" /></svg>
+              <svg class="eye-closed" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10.6 10.6 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.1 3.9M6.6 6.6A17.4 17.4 0 0 0 2 12s3.6 7 10 7a9.8 9.8 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2" /></svg>
+            </button>
+            <p class="field__caps" aria-live="polite">Caps Lock is on</p>
+            <p class="field__error" aria-live="polite"></p>
+          </div>
+
+          <div class="strength" id="strength" data-score="0">
+            <div class="strength__inner">
+              <div class="strength__bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+              <span class="strength__label" aria-live="polite">Password strength</span>
+              <ul class="strength__rules">
+                <li data-rule="length">8+ characters</li>
+                <li data-rule="case">Upper &amp; lower</li>
+                <li data-rule="number">A number</li>
+                <li data-rule="symbol">A symbol</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="field">
+            <input class="field__input" type="password" id="suConfirm" name="confirm" placeholder=" " autocomplete="new-password" required />
+            <label class="field__label" for="suConfirm">Confirm password</label>
+            <svg class="field__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6Z" /><path d="m8.5 12 2.5 2.5 4.5-4.5" /></svg>
+            <p class="field__error" aria-live="polite"></p>
+          </div>
+
+          <label class="check check--terms">
+            <input type="checkbox" name="terms" id="suTerms" />
+            <span class="check__box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg></span>
+            <span>I agree to the <a href="#" class="link">Terms</a> and <a href="#" class="link">Privacy Policy</a></span>
+          </label>
+
+          <button class="btn btn--primary" type="submit">
+            <span class="btn__label">Create Account</span>
+            <span class="btn__spinner" aria-hidden="true"></span>
+            <svg class="btn__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+          </button>
+
+          <p class="form__alt">Already a member? <button class="link" type="button" data-goto="signin">Sign in</button></p>
+        </form>
+      </div>
+
+      <!-- ---------- Sliding showcase panel (desktop) ---------- -->
+      <div class="overlay-wrap" aria-hidden="true">
+        <div class="overlay">
+          <div class="overlay__panel overlay__panel--left">
+            <div class="orb"><span></span><span></span><span></span></div>
+            <span class="chip">✦ Already one of us?</span>
+            <h2>Welcome<br />back, explorer.</h2>
+            <p>Sign in to sync your workspace, pick up your projects and see what's new.</p>
+            <button class="btn btn--ghost" type="button" data-goto="signin" tabindex="-1">Sign In</button>
+            <ul class="stats">
+              <li><strong data-count="128">0</strong>K<span>Creators</span></li>
+              <li><strong data-count="99">0</strong>.9%<span>Uptime</span></li>
+              <li><strong data-count="4">0</strong>.9★<span>Rating</span></li>
+            </ul>
+          </div>
+
+          <div class="overlay__panel overlay__panel--right">
+            <div class="orb"><span></span><span></span><span></span></div>
+            <span class="chip">✦ New around here?</span>
+            <h2>Start your<br />journey today.</h2>
+            <p>Create a free account and unlock a universe of tools built for curious minds.</p>
+            <button class="btn btn--ghost" type="button" data-goto="signup" tabindex="-1">Sign Up</button>
+            <div class="avatars">
+              <span style="--h:262">AK</span><span style="--h:190">RS</span><span style="--h:330">MJ</span><span style="--h:40">TP</span>
+              <em>+2.4k joined this week</em>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="credit">
+    Designed &amp; developed by
+    <a href="https://github.com/balakrishna-dev" target="_blank" rel="noopener">Balakrishna Undela</a>
+  </footer>
+
+  <!-- ========== Forgot password modal ========== -->
+  <div class="modal" id="forgotModal" role="dialog" aria-modal="true" aria-labelledby="forgotTitle" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__card">
+      <button class="modal__close" type="button" aria-label="Close" data-close>&times;</button>
+      <div class="modal__icon modal__icon--key">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="4" /><path d="m11 12 9-9M17 6l3 3M14 9l2 2" /></svg>
+      </div>
+      <h3 id="forgotTitle">Reset your password</h3>
+      <p>Enter the email tied to your account and we'll send a secure reset link.</p>
+      <form id="forgotForm" novalidate>
+        <div class="field">
+          <input class="field__input" type="email" id="fpEmail" name="email" placeholder=" " autocomplete="email" required />
+          <label class="field__label" for="fpEmail">Email address</label>
+          <svg class="field__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3" /><path d="m4 7 8 6 8-6" /></svg>
+          <p class="field__error" aria-live="polite"></p>
+        </div>
+        <button class="btn btn--primary" type="submit">
+          <span class="btn__label">Send reset link</span>
+          <span class="btn__spinner" aria-hidden="true"></span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========== Success modal ========== -->
+  <div class="modal" id="successModal" role="dialog" aria-modal="true" aria-labelledby="successTitle" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__card modal__card--success">
+      <svg class="success-check" viewBox="0 0 96 96" aria-hidden="true">
+        <circle class="success-check__ring" cx="48" cy="48" r="42" />
+        <path class="success-check__tick" d="m30 49 12 12 25-26" />
+      </svg>
+      <h3 id="successTitle">You're in!</h3>
+      <p id="successText">Welcome aboard.</p>
+      <button class="btn btn--primary" type="button" data-close><span class="btn__label">Continue</span></button>
+    </div>
+  </div>
+
+  <!-- ========== Toast ========== -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
