@@ -19,6 +19,34 @@
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
+  <!-- Shared SVG gradients -->
+  <svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#8b5cf6" />
+        <stop offset=".5" stop-color="#22d3ee" />
+        <stop offset="1" stop-color="#f472b6" />
+      </linearGradient>
+      <linearGradient id="buddyGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#a78bfa" />
+        <stop offset=".55" stop-color="#818cf8" />
+        <stop offset="1" stop-color="#f472b6" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- ========== Intro loader ========== -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <svg class="loader__logo" viewBox="0 0 32 32">
+      <path d="M16 2 29 9.5v13L16 30 3 22.5v-13Z" />
+      <circle cx="16" cy="16" r="4.5" />
+    </svg>
+    <div class="loader__word">
+      <span style="--i:0">N</span><span style="--i:1">E</span><span style="--i:2">B</span><span style="--i:3">U</span><span style="--i:4">L</span><span style="--i:5">A</span>
+    </div>
+    <div class="loader__bar"><i></i></div>
+  </div>
+
   <!-- ========== Ambient background ========== -->
   <div class="bg" aria-hidden="true">
     <div class="blob blob--1"></div>
@@ -29,6 +57,7 @@
     <div class="grain"></div>
   </div>
   <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
 
   <!-- ========== Top bar ========== -->
   <header class="topbar">
@@ -58,6 +87,7 @@
   <!-- ========== Auth card ========== -->
   <main class="stage">
     <section class="auth" id="auth" aria-label="Authentication">
+      <div class="spotlight" aria-hidden="true"></div>
 
       <!-- Mobile segmented switch -->
       <div class="switch" role="tablist" aria-label="Choose form">
@@ -70,9 +100,33 @@
       <div class="pane pane--signin is-active" id="signinPane" role="tabpanel">
         <form class="form" id="signinForm" novalidate>
           <header class="form__head">
-            <span class="eyebrow">Welcome back</span>
-            <h1 class="form__title">Sign in to <span class="grad-text">Nebula</span></h1>
-            <p class="form__sub">Pick up right where you left off.</p>
+            <div class="form__intro">
+              <span class="eyebrow">Welcome back</span>
+              <h1 class="form__title">Sign in to <span class="grad-text">Nebula</span></h1>
+              <p class="form__sub">Pick up right where you left off.</p>
+            </div>
+            <div class="buddy" aria-hidden="true">
+              <svg class="buddy__svg" viewBox="0 0 120 120">
+                <ellipse class="buddy__shadow" cx="60" cy="116" rx="26" ry="3.5" />
+                <g class="buddy__bob">
+                  <path class="buddy__antenna" d="M60 24V12" />
+                  <circle class="buddy__tip" cx="60" cy="9" r="4.5" />
+                  <circle cx="60" cy="64" r="40" fill="url(#buddyGrad)" />
+                  <ellipse cx="45" cy="38" rx="12" ry="5.5" fill="#fff" opacity=".35" transform="rotate(-24 45 38)" />
+                  <rect class="buddy__visor" x="27" y="45" width="66" height="40" rx="20" />
+                  <g class="buddy__eyes">
+                    <rect class="buddy__eye" x="43" y="56" width="10" height="14" rx="5" />
+                    <rect class="buddy__eye" x="67" y="56" width="10" height="14" rx="5" />
+                  </g>
+                  <path class="buddy__mouth buddy__mouth--smile" d="M53 76q7 5 14 0" />
+                  <path class="buddy__mouth buddy__mouth--sad" d="M53 79q7-5 14 0" />
+                  <ellipse class="buddy__cheek" cx="38" cy="93" rx="6" ry="3" />
+                  <ellipse class="buddy__cheek" cx="82" cy="93" rx="6" ry="3" />
+                  <circle class="buddy__hand buddy__hand--l" cx="20" cy="100" r="11" />
+                  <circle class="buddy__hand buddy__hand--r" cx="100" cy="100" r="11" />
+                </g>
+              </svg>
+            </div>
           </header>
 
           <div class="socials">
@@ -131,9 +185,33 @@
       <div class="pane pane--signup" id="signupPane" role="tabpanel">
         <form class="form" id="signupForm" novalidate>
           <header class="form__head">
-            <span class="eyebrow">Get started — it's free</span>
-            <h1 class="form__title">Create your <span class="grad-text">account</span></h1>
-            <p class="form__sub">Join a community of makers in seconds.</p>
+            <div class="form__intro">
+              <span class="eyebrow">Get started — it's free</span>
+              <h1 class="form__title">Create your <span class="grad-text">account</span></h1>
+              <p class="form__sub">Join a community of makers in seconds.</p>
+            </div>
+            <div class="buddy" aria-hidden="true">
+              <svg class="buddy__svg" viewBox="0 0 120 120">
+                <ellipse class="buddy__shadow" cx="60" cy="116" rx="26" ry="3.5" />
+                <g class="buddy__bob">
+                  <path class="buddy__antenna" d="M60 24V12" />
+                  <circle class="buddy__tip" cx="60" cy="9" r="4.5" />
+                  <circle cx="60" cy="64" r="40" fill="url(#buddyGrad)" />
+                  <ellipse cx="45" cy="38" rx="12" ry="5.5" fill="#fff" opacity=".35" transform="rotate(-24 45 38)" />
+                  <rect class="buddy__visor" x="27" y="45" width="66" height="40" rx="20" />
+                  <g class="buddy__eyes">
+                    <rect class="buddy__eye" x="43" y="56" width="10" height="14" rx="5" />
+                    <rect class="buddy__eye" x="67" y="56" width="10" height="14" rx="5" />
+                  </g>
+                  <path class="buddy__mouth buddy__mouth--smile" d="M53 76q7 5 14 0" />
+                  <path class="buddy__mouth buddy__mouth--sad" d="M53 79q7-5 14 0" />
+                  <ellipse class="buddy__cheek" cx="38" cy="93" rx="6" ry="3" />
+                  <ellipse class="buddy__cheek" cx="82" cy="93" rx="6" ry="3" />
+                  <circle class="buddy__hand buddy__hand--l" cx="20" cy="100" r="11" />
+                  <circle class="buddy__hand buddy__hand--r" cx="100" cy="100" r="11" />
+                </g>
+              </svg>
+            </div>
           </header>
 
           <div class="socials socials--compact">
@@ -215,8 +293,8 @@
       <!-- ---------- Sliding showcase panel (desktop) ---------- -->
       <div class="overlay-wrap" aria-hidden="true">
         <div class="overlay">
+          <canvas class="morph" id="morph"></canvas>
           <div class="overlay__panel overlay__panel--left">
-            <div class="orb"><span></span><span></span><span></span></div>
             <span class="chip">✦ Already one of us?</span>
             <h2>Welcome<br />back, explorer.</h2>
             <p>Sign in to sync your workspace, pick up your projects and see what's new.</p>
@@ -229,7 +307,6 @@
           </div>
 
           <div class="overlay__panel overlay__panel--right">
-            <div class="orb"><span></span><span></span><span></span></div>
             <span class="chip">✦ New around here?</span>
             <h2>Start your<br />journey today.</h2>
             <p>Create a free account and unlock a universe of tools built for curious minds.</p>

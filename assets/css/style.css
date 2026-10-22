@@ -345,7 +345,13 @@ svg { display: block; }
 .pane.is-active .form > *:nth-child(11) { animation-delay: .55s; }
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
-.form__head { margin-bottom: 22px; }
+.form__head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
 .eyebrow {
   display: inline-block;
   font-size: 12px;
@@ -357,7 +363,7 @@ svg { display: block; }
 }
 .form__title {
   font-family: var(--font-display);
-  font-size: clamp(26px, 2.6vw, 32px);
+  font-size: clamp(24px, 2.4vw, 29px);
   line-height: 1.15;
   letter-spacing: -.03em;
   font-weight: 700;
@@ -408,11 +414,11 @@ svg { display: block; }
 .divider::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--border-strong), transparent); }
 
 /* ---------- Fields ---------- */
-.field { position: relative; margin-bottom: 14px; }
+.field { --input-h: 54px; position: relative; margin-bottom: 14px; }
 
 .field__input {
   width: 100%;
-  height: 54px;
+  height: var(--input-h);
   padding: 20px 46px 6px 46px;
   border-radius: var(--radius-md);
   background: var(--surface-2);
@@ -425,7 +431,7 @@ svg { display: block; }
 .field__input:focus {
   border-color: transparent;
   background: var(--surface-3);
-  box-shadow: 0 0 0 1.5px var(--violet), 0 0 0 6px rgba(139, 92, 246, .15), 0 8px 30px -10px rgba(139, 92, 246, .5);
+  box-shadow: 0 0 0 6px rgba(139, 92, 246, .12), 0 8px 30px -10px rgba(139, 92, 246, .55);
 }
 .field__input:-webkit-autofill { -webkit-box-shadow: 0 0 0 100px var(--bg-2) inset; -webkit-text-fill-color: var(--text); }
 
@@ -624,9 +630,13 @@ svg { display: block; }
   letter-spacing: .01em;
   overflow: hidden;
   isolation: isolate;
-  transition: transform .3s var(--ease-spring), box-shadow .3s;
+  transition: transform .3s var(--ease-spring), box-shadow .3s, translate .4s var(--ease-out),
+    width .55s var(--ease-out), border-radius .55s var(--ease-out), background-color .3s, color .3s;
 }
+.btn__label, .btn__arrow { transition: opacity .2s, transform .35s var(--ease-spring); }
 .btn--primary {
+  display: flex;
+  margin-inline: auto;
   color: #fff;
   background: var(--grad);
   background-size: 200% 100%;
@@ -723,48 +733,6 @@ svg { display: block; }
 }
 .auth.is-signup .overlay { transform: translateX(50%); }
 @keyframes overlayFlow { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-
-/* rotating glass orb */
-.orb {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 520px;
-  height: 520px;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: -1;
-}
-.orb span {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, .22);
-  animation: orbit 16s linear infinite;
-}
-.orb span:nth-child(1) { inset: 0; border-style: dashed; }
-.orb span:nth-child(2) { inset: 70px; animation-duration: 11s; animation-direction: reverse; border-color: rgba(255, 255, 255, .3); }
-.orb span:nth-child(3) {
-  inset: 150px;
-  border: 0;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, .55), rgba(255, 255, 255, .06) 45%, transparent 70%);
-  box-shadow: inset 0 0 60px rgba(255, 255, 255, .25), 0 0 80px rgba(255, 255, 255, .15);
-  animation: pulse 5s ease-in-out infinite;
-}
-.orb span:nth-child(1)::before,
-.orb span:nth-child(2)::before {
-  content: "";
-  position: absolute;
-  top: -6px;
-  left: 50%;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0 20px 4px rgba(255, 255, 255, .8);
-}
-@keyframes orbit { to { transform: rotate(360deg); } }
-@keyframes pulse { 50% { transform: scale(1.08); } }
 
 .overlay__panel {
   position: absolute;
@@ -947,6 +915,283 @@ svg { display: block; }
 #confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 150; }
 
 /* ==========================================================================
+   Intro loader
+   ========================================================================== */
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 22px;
+  background: var(--bg);
+  border-radius: 0;
+  transition: transform 1.05s cubic-bezier(.77, 0, .18, 1), border-radius 1.05s cubic-bezier(.77, 0, .18, 1);
+  /* safety net: never block the page if scripts fail */
+  animation: loaderAuto .6s 5s forwards;
+}
+.loader.is-done {
+  transform: translateY(-105%);
+  border-radius: 0 0 50% 50% / 0 0 22% 22%;
+}
+@keyframes loaderAuto { to { opacity: 0; visibility: hidden; } }
+
+.loader__logo { width: 76px; height: 76px; overflow: visible; filter: drop-shadow(0 0 24px rgba(139, 92, 246, .55)); }
+.loader__logo path {
+  fill: none;
+  stroke: url(#brandGrad);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  animation: draw 1.1s var(--ease-out) .1s forwards;
+}
+.loader__logo circle {
+  fill: url(#brandGrad);
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0);
+  animation: popDot .7s var(--ease-spring) .75s forwards;
+}
+@keyframes popDot { to { transform: scale(1); } }
+
+.loader__word { display: flex; gap: .42em; font-family: var(--font-display); font-weight: 700; font-size: 22px; overflow: hidden; }
+.loader__word span {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: letterUp .7s var(--ease-out) forwards;
+  animation-delay: calc(.35s + var(--i) * 70ms);
+}
+@keyframes letterUp { to { transform: none; } }
+
+.loader__bar { width: 168px; height: 2px; border-radius: 2px; background: var(--surface-3); overflow: hidden; }
+.loader__bar i {
+  display: block;
+  height: 100%;
+  background: var(--grad);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: barFill 1.25s cubic-bezier(.65, 0, .35, 1) .15s forwards;
+}
+@keyframes barFill { to { transform: scaleX(1); } }
+
+/* hold the entrance until the curtain lifts */
+body:not(.is-ready) .auth,
+body:not(.is-ready) .pane.is-active .form > * { animation-play-state: paused; }
+.topbar, .credit { transition: opacity .8s ease .3s, translate .8s var(--ease-out) .3s; }
+body:not(.is-ready) .topbar { opacity: 0; translate: 0 -16px; }
+body:not(.is-ready) .credit { opacity: 0; translate: 0 16px; }
+
+/* ==========================================================================
+   Cursor ring & card spotlight
+   ========================================================================== */
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, .85);
+  mix-blend-mode: difference;
+  pointer-events: none;
+  z-index: 300;
+  opacity: 0;
+  transition: opacity .3s, background-color .3s, border-color .3s;
+  will-change: transform;
+}
+.cursor-ring.is-visible { opacity: 1; }
+.cursor-ring.is-hover { background: rgba(255, 255, 255, .9); border-color: transparent; }
+@media (hover: none) { .cursor-ring { display: none; } }
+
+.spotlight {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(520px circle at var(--mx, 50%) var(--my, 50%), rgba(139, 92, 246, .16), transparent 45%);
+  opacity: 0;
+  transition: opacity .5s;
+}
+.auth:hover .spotlight { opacity: 1; }
+
+/* ==========================================================================
+   Animated field border
+   ========================================================================== */
+.field::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--input-h);
+  padding: 1.5px;
+  border-radius: var(--radius-md);
+  background: conic-gradient(from var(--angle, 0deg), var(--violet), var(--cyan), var(--pink), var(--violet));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
+  animation: rotateBorder 2.6s linear infinite paused;
+}
+.field:focus-within::after { opacity: 1; animation-play-state: running; }
+.field.is-invalid::after { opacity: 0; }
+
+/* ==========================================================================
+   Mascot
+   ========================================================================== */
+.buddy { width: 76px; height: 76px; flex: none; margin-right: -6px; }
+.buddy__svg { width: 100%; height: 100%; overflow: visible; animation: buddyFloat 4.5s ease-in-out infinite; }
+.buddy__bob { transform-box: fill-box; transform-origin: 50% 80%; }
+.buddy__shadow { fill: rgba(0, 0, 0, .25); animation: buddyShadow 4.5s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.buddy__antenna { stroke: #a78bfa; stroke-width: 3; stroke-linecap: round; }
+.buddy__tip { fill: var(--cyan); filter: drop-shadow(0 0 4px var(--cyan)); animation: tipPulse 2s ease-in-out infinite; }
+.buddy__visor { fill: #0c0b22; stroke: rgba(255, 255, 255, .15); stroke-width: 1.5; }
+.buddy__eyes { transform: translate(var(--gx, 0px), var(--gy, 0px)); transition: transform .18s ease-out; }
+.buddy__eye {
+  fill: #67e8f9;
+  filter: drop-shadow(0 0 3px #22d3ee);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: blink 5s infinite;
+  transition: transform .3s var(--ease-spring);
+}
+.buddy__mouth { fill: none; stroke: #67e8f9; stroke-width: 3; stroke-linecap: round; transition: opacity .25s; }
+.buddy__mouth--sad { opacity: 0; }
+.buddy__cheek { fill: #f9a8d4; opacity: .55; }
+.buddy__hand {
+  fill: url(#buddyGrad);
+  stroke: rgba(255, 255, 255, .7);
+  stroke-width: 2.5;
+  transition: transform .5s var(--ease-spring);
+}
+
+.buddy.is-hiding .buddy__hand--l { transform: translate(28px, -37px); }
+.buddy.is-hiding .buddy__hand--r { transform: translate(-28px, -37px); }
+.buddy.is-hiding.is-peeking .buddy__hand--r { transform: translate(-24px, -16px); }
+.buddy.is-sad .buddy__mouth--smile { opacity: 0; }
+.buddy.is-sad .buddy__mouth--sad { opacity: 1; }
+.buddy.is-sad .buddy__eye { animation: none; transform: scaleY(.7) translateY(2px); }
+.buddy.is-sad .buddy__bob { animation: buddyNo .6s ease-in-out; }
+.buddy.is-happy .buddy__eye { animation: none; transform: scaleY(.3); }
+.buddy.is-happy .buddy__bob { animation: buddyJump .55s var(--ease-out) 2; }
+
+@keyframes buddyFloat { 50% { transform: translateY(-5px); } }
+@keyframes buddyShadow { 50% { transform: scaleX(.8); opacity: .6; } }
+@keyframes tipPulse { 50% { opacity: .5; } }
+@keyframes blink { 0%, 93%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.1); } }
+@keyframes buddyNo { 20% { transform: rotate(-10deg); } 40% { transform: rotate(9deg); } 60% { transform: rotate(-6deg); } 80% { transform: rotate(3deg); } }
+@keyframes buddyJump { 40% { transform: translateY(-12px) scale(1.04, .96); } 70% { transform: translateY(0) scale(1.06, .92); } }
+
+/* ==========================================================================
+   Showcase: particle scene, liquid edge, split text
+   ========================================================================== */
+.morph {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  z-index: 1;
+  transition: transform var(--dur) var(--ease-out);
+}
+.auth.is-signup .morph { transform: translateX(-100%); }
+
+.overlay-wrap.is-liquid-l { animation: liquidL var(--dur) var(--ease-out); }
+.overlay-wrap.is-liquid-r { animation: liquidR var(--dur) var(--ease-out); }
+@keyframes liquidL { 0%, 100% { border-radius: 0; } 45% { border-radius: 42% 0 0 42% / 50% 0 0 50%; } }
+@keyframes liquidR { 0%, 100% { border-radius: 0; } 45% { border-radius: 0 42% 42% 0 / 0 50% 50% 0; } }
+
+.overlay__panel h2 .word { display: inline-block; white-space: nowrap; }
+.overlay__panel h2 .char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(.55em) rotate(8deg);
+  filter: blur(8px);
+  transition: opacity .45s ease, transform .9s var(--ease-out), filter .6s ease;
+}
+.auth:not(.is-signup) .overlay__panel--right h2 .char,
+.auth.is-signup .overlay__panel--left h2 .char {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  transition-delay: calc(.22s + var(--i) * 26ms);
+}
+
+.overlay__panel > :not(h2) {
+  opacity: 0;
+  translate: 0 18px;
+  transition: opacity .5s ease, translate .9s var(--ease-out), transform .3s var(--ease-spring),
+    background-color .3s, color .3s, box-shadow .3s;
+}
+.auth:not(.is-signup) .overlay__panel--right > :not(h2),
+.auth.is-signup .overlay__panel--left > :not(h2) {
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: var(--d, 0s), var(--d, 0s), 0s, 0s, 0s, 0s;
+}
+.overlay__panel > .chip { --d: .12s; }
+.overlay__panel > p { --d: .6s; }
+.overlay__panel > .btn--ghost { --d: .7s; }
+.overlay__panel > .stats,
+.overlay__panel > .avatars { --d: .82s; }
+
+body:not(.is-ready) .overlay__panel h2 .char { opacity: 0 !important; filter: blur(8px) !important; transform: translateY(.55em) rotate(8deg) !important; }
+body:not(.is-ready) .overlay__panel > :not(h2) { opacity: 0 !important; translate: 0 18px !important; }
+
+/* ==========================================================================
+   Ripple & success button
+   ========================================================================== */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .45);
+  transform: scale(0);
+  pointer-events: none;
+  animation: ripple .7s var(--ease-out) forwards;
+}
+.social .ripple { background: rgba(139, 92, 246, .3); }
+@keyframes ripple { to { transform: scale(1); opacity: 0; } }
+
+.btn__check {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+}
+.btn.is-success {
+  width: var(--input-h, 54px);
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 14px 40px -12px rgba(52, 211, 153, .9);
+  animation: none;
+  pointer-events: none;
+}
+.btn.is-success .btn__label,
+.btn.is-success .btn__arrow,
+.btn.is-success .btn__spinner { opacity: 0; }
+.btn.is-success .btn__check { stroke-dashoffset: 0; transition: stroke-dashoffset .4s var(--ease-out) .35s; }
+
+/* ==========================================================================
+   Theme switch: circular reveal (View Transitions API)
+   ========================================================================== */
+::view-transition-old(root),
+::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-new(root) { z-index: 2; }
+
+/* ==========================================================================
    Responsive
    ========================================================================== */
 @media (max-height: 820px) and (min-width: 861px) {
@@ -954,7 +1199,7 @@ svg { display: block; }
   .form__head { margin-bottom: 16px; }
   .divider { margin: 14px 0; }
   .field { margin-bottom: 11px; }
-  .field__input { height: 50px; }
+  .field { --input-h: 50px; }
   .field__label { top: 15px; }
   .field__icon { top: 15px; }
   .field__reveal { top: 6px; }
@@ -979,6 +1224,7 @@ svg { display: block; }
   .auth.is-signup .pane--signin { display: none; }
   .auth.is-signup .pane--signup { display: flex; animation: none; }
   .form__alt { display: block; }
+  .buddy { width: 64px; height: 64px; }
 
   .switch {
     position: relative;

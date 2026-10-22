@@ -17,7 +17,7 @@
 
 ## 🌌 About
 
-**Nebula** is a login and sign-up experience that aims to feel *alive*. A glassmorphic card floats over a drifting aurora and an interactive constellation. The showcase panel slides across the card when you switch between **Sign In** and **Sign Up**.
+**Nebula** is a login and sign-up experience that aims to feel *alive*. A glassmorphic card floats over a drifting aurora and an interactive constellation. A robot mascot reacts to everything you type, and a 3D particle planet turns into a galaxy as the showcase panel slides between **Sign In** and **Sign Up**.
 
 It uses no frameworks, libraries or build step: just semantic HTML, modern CSS and plain JavaScript.
 
@@ -25,18 +25,22 @@ It uses no frameworks, libraries or build step: just semantic HTML, modern CSS a
 
 | | Feature | Details |
 |---|---|---|
-| 🎞️ | **Sliding showcase panel** | A gradient panel with orbiting rings glides between the two forms, with parallax on its content |
-| 🌠 | **Interactive constellation** | A canvas particle network that is drawn toward your cursor |
-| 🧊 | **Glassmorphism + 3D tilt** | A frosted card that tilts with the pointer, with an animated rotating gradient border |
-| 🌗 | **Dark / Light themes** | Follows your system setting, has an animated toggle and remembers your choice |
+| 🎬 | **Cinematic intro** | The logo draws itself, the letters rise in, and the loader lifts away like a curtain |
+| 🤖 | **Interactive mascot** | A little robot that follows your cursor and your typing with its eyes, covers its eyes while you type a password, peeks when you show it, frowns at errors and jumps on success |
+| 🪐 | **3D particle morph** | 900 particles form a ringed planet and turn into a spiral galaxy when you switch forms. The scene rotates with your mouse |
+| 🌊 | **Liquid sliding panel** | The showcase panel bends like liquid as it glides between the forms, and its headline appears letter by letter |
+| 🌗 | **Circular theme reveal** | Dark and light themes spread out in a circle from the toggle (View Transitions API), follow your system setting and are remembered |
+| 🌠 | **Living background** | A constellation drawn toward the cursor, shooting stars, and shockwaves when you click empty space |
+| 🧲 | **Magnetic buttons & ripples** | Buttons lean toward the cursor, ripple when clicked, and the submit button turns into a check mark on success |
+| 🔦 | **Cursor spotlight & ring** | A soft light follows the pointer across the glass card, and a cursor ring reacts to what's underneath |
+| ✨ | **Animated focus border** | A rotating gradient border lights up the active field |
 | 🔐 | **Live password strength meter** | A 4-segment meter and a checklist of rules (length, case, number, symbol) |
 | ✅ | **Real-time validation** | Inline error messages, a shake on invalid fields and green states for valid ones |
-| 👁️ | **Show / hide password** | Animated eye toggle that keeps the cursor position |
 | ⇪ | **Caps Lock warning** | A heads-up while you type a password |
 | 📨 | **Forgot-password modal** | Pre-fills your email, traps focus and closes on <kbd>Esc</kbd> |
 | 🎉 | **Success celebration** | An animated check mark that draws itself, plus a confetti burst |
 | 📱 | **Fully responsive** | A segmented tab switch with a spring-animated pill on mobile |
-| ♿ | **Accessible** | Semantic markup, ARIA roles, `aria-live` errors, keyboard support, `inert` hidden panes and `prefers-reduced-motion` support |
+| ♿ | **Accessible** | Semantic markup, ARIA roles, `aria-live` errors, keyboard support, `inert` hidden panes and full `prefers-reduced-motion` support |
 
 ## 📸 Screenshots
 
@@ -59,8 +63,8 @@ It uses no frameworks, libraries or build step: just semantic HTML, modern CSS a
 ## 🛠️ Tech Stack
 
 - **HTML5**: semantic structure, ARIA and native form features
-- **CSS3**: custom properties, `@property` animated gradients, `backdrop-filter`, CSS grid and flexbox, masks, keyframe animations and media queries
-- **JavaScript (ES6+)**: Canvas 2D API, `requestAnimationFrame`, pointer events, `localStorage` and async/await
+- **CSS3**: custom properties, `@property` animated gradients, animated SVG, `backdrop-filter`, CSS grid and flexbox, masks, keyframe animations and media queries
+- **JavaScript (ES6+)**: Canvas 2D API (a hand-written 3D projection for the particle scene), View Transitions API, `requestAnimationFrame`, pointer events, `localStorage` and async/await
 
 ## 🚀 Getting Started
 
